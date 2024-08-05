@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "cardscore-native",
+    "name": "Cardscore",
     "slug": "cardscore-native",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,10 +18,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.seelentov.cardscorenative",
+      "googleServicesFile" : "./google/google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "30ccd825-33e6-4cf3-b0bc-adeeb9eff55b"
+      }
     }
   }
 }
