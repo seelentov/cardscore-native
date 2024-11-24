@@ -81,9 +81,9 @@ interface NotifContextProps {
 
 export const NotifProvider = ({ children }: PropsWithChildren) => {
 
-  const { data: notificatorsData, isLoading: isLoadingNotif } = useGetNotificationsQuery(undefined, {
+  const { data: notificatorsData, isLoading: isLoadingNotif, error } = useGetNotificationsQuery(undefined, {
     pollingInterval: 5000
-})
+  })
 
   const [expoPushToken, setExpoPushToken] = useState('');
   const notificationListener = useRef<Notifications.Subscription>();
@@ -103,7 +103,7 @@ export const NotifProvider = ({ children }: PropsWithChildren) => {
       console.log(data)
     });
 
-    
+
 
     return () => {
       notificationListener.current &&
@@ -113,24 +113,24 @@ export const NotifProvider = ({ children }: PropsWithChildren) => {
     };
   }, []);
 
- 
-  useEffect(()=>{
-      updateExpoToken(expoPushToken)
+
+  useEffect(() => {
+    updateExpoToken(expoPushToken)
   }, [token, expoPushToken])
 
-  useEffect(()=>{
+  useEffect(() => {
     const intervalId = setInterval(() => {
       updateExpoToken(expoPushToken)
     }, 10000);
-  
+
     return () => clearInterval(intervalId);
 
-}, [expoPushToken])
+  }, [expoPushToken])
 
-  
+
 
   return (
-    <NotifContext.Provider value={{expoPushToken, notificatorsData, isLoadingNotif}}>
+    <NotifContext.Provider value={{ expoPushToken, notificatorsData, isLoadingNotif }}>
       {children}
     </NotifContext.Provider>
   );

@@ -122,7 +122,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
                                         {
                                             cardCountTypes.map((cdCntType) =>
                                                 <View style={nestedStyle.item}>
-                                                    <Text>{cdCntType === "cardCount" ? 'Первая' : cdCntType === "cardCountTwo" ? "Вторая" : "Третья"} критическая желтая карточка при: </Text>
+                                                    <Text>{cdCntType === "cardCount" ? 'Первая' : cdCntType === "cardCountTwo" ? "Вторая" : cdCntType === "cardCountThree" ? "Третья" : "Четвёртая"} критическая желтая карточка при: </Text>
                                                     <Pressable style={nestedStyle.btn} onPress={() => handleUpdateNotifValue(index, 1, cdCntType)}>
                                                         <Text>+</Text>
                                                     </Pressable>
