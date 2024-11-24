@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { View } from 'react-native';
+import { ImageBackground, View } from 'react-native';
 import { RootStackParamList } from '../../Router';
 import Footer from '../../components/Footer/Footer';
 import { styles } from '../../styles/styles';
@@ -24,6 +24,7 @@ import { useGetPlayerQuery } from '../../core/store/api/parser.api';
 import Loading from '../../components/ui/Loading/Loading';
 import { encodeUrl } from '../../core/utils/url/encodeUrl';
 import { useEffect } from 'react';
+import React from 'react';
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Player'>;
 
@@ -35,32 +36,34 @@ export default function PlayerScreen({ navigation, route }: HomeScreenProps) {
         leagueUrl: encodeUrl(league.url)
     })
 
-    useEffect(()=>{
-        if(player?.name == null){
+    useEffect(() => {
+        if (player?.name == null) {
             refetch()
         }
 
-    },[player])
+    }, [player])
 
     const isHaveStats = player && (player.goal || player.assists || player.yellowCards || player.yellowRedCards || player.redCards || player.gameCount)
 
     return (
         <>
-            <View style={styles.wrapper}>
-                <ListItem
-                    title={league.title}
-                    desc={league.country}
-                    imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
-                    navigation={navigation}
-                    routeType={'League'}
-                    routeProps={{ leagueUrl: league.url }}
-                />
+            <ImageBackground source={require('../../../assets/bgw.jpg')} style={styles.wrapper}>
+                <ImageBackground source={require('../../../assets/bgy.jpg')}>
+                    <ListItem
+                        title={league.title}
+                        desc={league.country}
+                        imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
+                        navigation={navigation}
+                        routeType={'League'}
+                        routeProps={{ leagueUrl: league.url }}
+                    />
+                </ImageBackground>
                 {isLoading ? <Loading /> :
                     player &&
                     <View style={styles.spaces}>
                         <Header>{player.name} {player.position && "(" + player.position + ")"}</Header>
-                        {player.imageUrl  && <View style={{ display: 'flex', alignItems: 'center' }}>
-                                <RoundImage width={150} src={player.imageUrl} />
+                        {player.imageUrl && <View style={{ display: 'flex', alignItems: 'center' }}>
+                            <RoundImage width={150} src={player.imageUrl} />
                         </View>}
                         {
                             Boolean(isHaveStats) &&
@@ -159,7 +162,7 @@ export default function PlayerScreen({ navigation, route }: HomeScreenProps) {
                             </>
                         }
                     </View>}
-            </View>
+            </ImageBackground>
             <Footer navigation={navigation} />
         </>
     );

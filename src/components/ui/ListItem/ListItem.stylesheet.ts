@@ -3,33 +3,34 @@ import { StyleSheet } from 'react-native';
 import theme from '../../../core/config/theme';
 
 export const styles = StyleSheet.create({
-    item:{
+    item: {
         display: "flex",
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderBottomWidth: 1,
         borderColor: theme.desc,
-        padding: 10
+        padding: 10,
+        opacity: 0.8
     },
-    left:{
+    left: {
         display: "flex",
         flexDirection: 'row',
         gap: 20,
         alignItems: 'center'
     },
-    itemLogo:{
+    itemLogo: {
     },
-    text:{
+    text: {
         display: 'flex',
         flexDirection: 'column',
     },
-    desc:{
-        color: theme.desc
+    desc: {
+        color: theme.text
     },
-    title:{
-    
+    title: {
+
     },
-    count:{
+    count: {
         width: 50,
         display: 'flex',
         justifyContent: 'center',

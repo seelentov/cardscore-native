@@ -8,6 +8,7 @@ import ListItem from '../ui/ListItem/ListItem';
 import NotFound from '../ui/NotFound/NotFound';
 import { League } from '../../core/types/league';
 import theme from '../../core/config/theme';
+import React from 'react';
 
 type IGamesListProps = {
     navigation: any,
@@ -32,9 +33,9 @@ export default function GamesList({ navigation, leaguesData, leaguesData2 }: IGa
                 <>
                     {isLeaguesData2Exist &&
                         <>
-                            <ListItem title={'Избранные'} style={{ backgroundColor: theme.desc }}/>
+                            <ListItem title={'Избранные'} style={{ backgroundColor: theme.desc }} />
                             <View style={styles.list}>
-                                {leaguesData2 && leaguesData2.map(league => <ListItem title={league.title?.length > 30 ? league.title.slice(0,30) + "..." : league.title} key={league.url} desc={league.country?.length > 30 ? league.country.slice(0,30) + "..." : league.country} count={league.gamesCount} imageUrl={getFlagByCountry(localizeReverseCountry(league.country))} navigation={navigation} routeType={'League'} routeProps={
+                                {leaguesData2 && leaguesData2.map(league => <ListItem title={league.title?.length > 30 ? league.title.slice(0, 30) + "..." : league.title} key={league.url} desc={league.country?.length > 30 ? league.country.slice(0, 30) + "..." : league.country} count={league.gamesCount} imageUrl={getFlagByCountry(localizeReverseCountry(league.country))} navigation={navigation} routeType={'League'} routeProps={
                                     {
                                         leagueUrl: league.url,
                                         leagueName: league.title
@@ -44,9 +45,9 @@ export default function GamesList({ navigation, leaguesData, leaguesData2 }: IGa
                         </>
                     }
                     {
-                        leaguesData2Filtred && leaguesData2Filtred?.length > 0 && <ListItem title={'Все лиги'}style={{ backgroundColor: theme.desc }} />
+                        leaguesData2Filtred && leaguesData2Filtred?.length > 0 && <ListItem title={'Все лиги'} style={{ backgroundColor: theme.desc }} />
                     }
-                    
+
                     <View style={styles.list}>
                         {leaguesData2Filtred && leaguesData2Filtred.map(league => <ListItem key={league.url} title={league.title} desc={league.country} count={league.gamesCount} imageUrl={getFlagByCountry(localizeReverseCountry(league.country))} navigation={navigation} routeType={'League'} routeProps={
                             {

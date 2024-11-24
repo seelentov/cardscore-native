@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ScrollView, TextInput, View, Text, StyleSheet, Pressable, Alert } from 'react-native';
+import { ScrollView, TextInput, View, Text, StyleSheet, Pressable, Alert, ImageBackground } from 'react-native';
 import { RootStackParamList } from '../../Router';
 import Footer from '../../components/Footer/Footer';
 import { styles } from '../../styles/styles';
@@ -12,11 +12,14 @@ import Button from '../../components/ui/Button/Button';
 import { EditUserNotificationOption } from '../../core/types/EditUserNotificationOption';
 import theme from '../../core/config/theme';
 import NotFound from '../../components/ui/NotFound/NotFound';
+import React from 'react';
+import { Profile } from '../../components/Profile/Profile';
+import Br from '../../components/ui/Br/Br';
 
 type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
-type cardCountType = 'cardCount' | 'cardCountTwo' | 'cardCountThree'
-type cardCountTypes = ['cardCount', 'cardCountTwo', 'cardCountThree']
+type cardCountType = 'cardCount' | 'cardCountTwo' | 'cardCountThree' | "cardCountFour"
+type cardCountTypes = ['cardCount', 'cardCountTwo', 'cardCountThree', "cardCountFour"]
 
 export default function SettingsScreen({ navigation }: SettingsScreenProps) {
 
@@ -50,7 +53,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
 
 
 
-    const cardCountTypes: cardCountTypes = ['cardCount', 'cardCountTwo', 'cardCountThree']
+    const cardCountTypes: cardCountTypes = ['cardCount', 'cardCountTwo', 'cardCountThree', "cardCountFour"]
 
     const setNotifValue = (index: number, value: string, cardCountType: cardCountType) => {
         setNotificators(prevNotificators => {
@@ -84,7 +87,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
         if (isLoadingMutation || !notificators) {
             return;
         }
-    
+
         for (const notificator of notificators) {
             const values = [notificator.cardCount, notificator.cardCountTwo, notificator.cardCountThree];
             if (new Set(values).size !== values.length) {
@@ -92,19 +95,23 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
                 return;
             }
         }
-    
-        editNotificators({ options: notificators }).then(()=>{
+
+        editNotificators({ options: notificators }).then(() => {
             Alert.alert(`ОК!`, "Сохранение прошло успешно");
         });
     }
 
     return (
-        <View>
+        <>
             <View style={styles.wrapper}>
-                <View style={styles.spacesHorizontal}>
-                    <Header>Уведомления</Header>
-                </View>
+                <ImageBackground style={styles.spacesHorizontal} source={require('../../../assets/bgy.jpg')}>
+                    <Header>Настройки</Header>
+                </ImageBackground>
+
                 <ScrollView style={nestedStyle.list}>
+                    <View style={{ paddingHorizontal: 10 }}>
+                        <Header>Уведомления</Header>
+                    </View>
                     {
                         isLoading ? <Loading /> :
                             notificators?.map((notificator, index) => {
@@ -138,13 +145,21 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
                     {
                         notificators && notificators?.length < 1 && <NotFound title={"Пусто"} desc={"Нет ни одной избранной лиги"} />
                     }
+                    <View style={{ paddingHorizontal: 10 }}>
+                        <Header>Профиль</Header>
+                    </View>
+                    <Profile navigation={navigation} />
+                    <Br />
+                    <Br />
+                    <Br />
                 </ScrollView>
+
                 <View style={styles.spaces}>
                     <Button onPress={() => handleSubmit()}>Сохранить</Button>
                 </View>
-            </View>
+            </View >
             <Footer navigation={navigation} />
-        </View>
+        </>
     );
 }
 
@@ -189,6 +204,6 @@ const nestedStyle = StyleSheet.create({
     list: {
         borderTopWidth: 1,
         borderBottomWidth: 1,
-        borderColor: theme.desc
+        borderColor: theme.desc,
     }
 })

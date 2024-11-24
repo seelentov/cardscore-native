@@ -1,10 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Pressable, ScrollView, View, StyleSheet, Text } from 'react-native';
+import { Pressable, ScrollView, View, StyleSheet, Text, Dimensions, ImageBackground } from 'react-native';
 import { RootStackParamList } from '../../Router';
 import Footer from '../../components/Footer/Footer';
 import { styles } from '../../styles/styles';
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { useGetFavoriteGamesQuery } from '../../core/store/api/auth.api';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import Loading from '../../components/ui/Loading/Loading';
 import getFlagByCountry from '../../core/utils/countries/getFlagByCountry';
 import { localizeReverseCountry } from '../../core/utils/countries/localizeCountries';
@@ -15,32 +14,50 @@ import ListItem2 from '../../components/ui/ListItem2/ListItem2';
 import calcGame from '../../core/utils/game/calcGame';
 import DatePicker from '../../components/DatePicker/DatePicker';
 import { FavoritesContext } from '../../provider/FavoritesProvider';
-import moment from 'moment';
 import isToday from '../../core/utils/date/isToday';
 import { SvgXml } from 'react-native-svg';
 import close from '../../components/ui/Icons/close'
 import { NotifContext } from '../../provider/NotifProvider';
+import React from 'react';
+import Picker, { PickerOption } from '../../components/Picker/Picker';
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Favorites'>;
 
-export default function FavoritesScreen({ navigation }: HomeScreenProps) {
+const hotModeOptions = [
+    {
+        value: 2,
+        label: 'Более 2-х событий'
+    },
+    {
+        value: 3,
+        label: 'Более 3-х событий'
+    }
+]
+
+export default function FavoritesScreen({ navigation, route }: HomeScreenProps) {
+
+    const params = route?.params;
+
+    const [hotMode, setHotMode] = useState<PickerOption | null>(null)
 
     const [date, setDate] = useState<Date | null>(null)
 
     const { favorites, isLoading } = useContext(FavoritesContext);
 
-    const {notificatorsData} = useContext(NotifContext)
-    
-    const filtredFavorites = favorites?.filter(({ league, game }) => {
+    const { notificatorsData } = useContext(NotifContext)
+
+    const filtredFavorites = useMemo(() => favorites?.filter(({ league, game }) => {
+
         if (!date) {
-            return true
+            return true;
         }
 
         const checkTime = new Date(game.dateTime)
 
+        const isNeededDate = (date.getDate() === checkTime.getDate()) && (date.getMonth() === checkTime.getMonth()) && (date.getFullYear() === checkTime.getFullYear())
 
-        return (date.getDate() === checkTime.getDate()) && (date.getMonth() === checkTime.getMonth()) && (date.getFullYear() === checkTime.getFullYear())
-    })
+        return isNeededDate;
+    }), [date, favorites])
 
     const [showGames, setShowGames] = useState<number>(15)
 
@@ -67,68 +84,89 @@ export default function FavoritesScreen({ navigation }: HomeScreenProps) {
     return (
         <>
             <View style={styles.wrapper}>
-                <View style={{...nestedStyles.datePicker, paddingLeft: date ? 50 : 0}}>
-                    <DatePicker dateState={date} setDate={setDate} />
-                    <Pressable onPress={clearDate} style={{ ...nestedStyles.datePickerBtn, opacity: date ? 1 : 0 }}>
-                    <SvgXml
-                    width="20px"
-                    height="20px"
-                    xml={close}
-                />
-                    </Pressable>
-                </View>
+                <ImageBackground source={require('../../../assets/bgy.jpg')}>
+                    <View style={{ ...nestedStyles.datePicker, paddingLeft: date ? 50 : 0 }}>
+                        <DatePicker dateState={date} setDate={setDate} />
+                        <Pressable onPress={clearDate} style={{ ...nestedStyles.datePickerBtn, opacity: date ? 1 : 0 }}>
+                            <SvgXml
+                                width="20px"
+                                height="20px"
+                                xml={close}
+                            />
+                        </Pressable>
+                    </View>
+                    {params?.hot && <View style={{ ...nestedStyles.datePicker }}>
+                        <Picker setState={setHotMode} state={hotMode} options={hotModeOptions} />
+                        <Pressable onPress={() => setHotMode(null)} style={{ ...nestedStyles.datePickerBtn, opacity: hotMode ? 1 : 0 }}>
+                            <SvgXml
+                                width="20px"
+                                height="20px"
+                                xml={close}
+                            />
+                        </Pressable>
+                    </View>}
+                </ImageBackground>
                 {!isLoading && <ListItem title={titleDate} style={{ backgroundColor: theme.desc }} />}
-                <ScrollView
-                    onScroll={handleScroll}
-                >
-                    {isLoading ? <Loading /> :
-                        (filtredFavorites && filtredFavorites?.length > 0) ?
-                            (!date ? filtredFavorites.slice(0, showGames) : filtredFavorites).map(({ league, game }) => {
+                <ImageBackground source={require('../../../assets/bgw.jpg')}>
+                    <ScrollView
+                        onScroll={handleScroll}
+                    >
+                        {isLoading ? <Loading /> :
+                            (filtredFavorites && filtredFavorites?.length > 0) ?
+                                ((!date && !hotMode) ? filtredFavorites.slice(0, showGames) :
+                                    hotMode ? filtredFavorites.slice(0, showGames + 100) : filtredFavorites).map(({ league, game }) => {
 
-                                const {
-                                    counts,
-                                    activeTime,
-                                    renderedDate,
-                                    showNotifs,
-                                } = calcGame(game)
+                                        const {
+                                            counts,
+                                            activeTime,
+                                            renderedDate,
+                                            showNotifs,
+                                        } = calcGame(game)
 
-                                const leagueData = {
-                                    title: league?.title,
-                                    country: league?.country,
-                                    url: league?.url
-                                }
+                                        const leagueData = {
+                                            title: league?.title,
+                                            country: league?.country,
+                                            url: league?.url
+                                        }
 
-                                const notifKey = (game.teams[0].name + game.teams[1].name).replaceAll(" ", "").toUpperCase()
+                                        const notifKey = (game.teams[0].name + game.teams[1].name).replaceAll(" ", "").toUpperCase()
 
-                                const notificators = notificatorsData?.filter(n => n.gameUrl.toUpperCase() === notifKey)
+                                        const notificators = notificatorsData?.filter(n => n.gameUrl.toUpperCase() === notifKey)
 
-                                const notificatorsLeft = showNotifs ? notificators?.filter(n => n.leftTeam).length : 0
-                                const notificatorsRight = showNotifs ? notificators?.filter(n => !n.leftTeam).length : 0
+                                        const notificatorsLeft = showNotifs ? notificators?.filter(n => n.leftTeam).length || 0 : 0
+                                        const notificatorsRight = showNotifs ? notificators?.filter(n => !n.leftTeam).length || 0 : 0
 
-                                const titles = game.teams.map(team => team.name?.length > 20 ? team.name.slice(0,20) + "..." : team.name) as [string, string]
+                                        const titles = game.teams.map(team => team.name?.length > 20 ? team.name.slice(0, 20) + "..." : team.name) as [string, string]
 
-                                return (
-                                    <View style={{ borderTopWidth: 2, borderColor: theme.desc }} key={game.teams.map(t => t.name).join("") + game.dateTime}>
-                                        <ListItem
-                                            title={league.title?.length > 30 ? league.title.slice(0,30) + "..." : league.title}
-                                            imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
-                                            style={{ borderBottomWidth: 1, paddingVertical: 0 }}
-                                        />
-                                        <ListItem2
-                                            navigation={navigation}
-                                            titles={titles}
-                                            iconUrls={game.teams.map(team => team.iconUrl) as [string, string]}
-                                            counts={counts}
-                                            notifs={[notificatorsLeft || 0, notificatorsRight || 0]}
-                                            descs={[activeTime, renderedDate]}
-                                            routeType={'Game'}
-                                            routeProps={{ league: leagueData, gameUrl: game.url, gameInfo: game }}
-                                        />
-                                    </View>
-                                )
-                            }) :
-                            <NotFound title={'Пусто..'} desc={'Игр не найдено'} />}
-                </ScrollView>
+                                        const isHotShow = hotMode !== null ? (notificatorsLeft < hotMode.value && notificatorsRight < hotMode.value) : false
+
+                                        if (isHotShow) {
+                                            return <></>
+                                        }
+
+                                        return (
+                                            <View style={{ borderTopWidth: 2, borderColor: theme.desc }} key={game.teams.map(t => t.name).join("") + game.dateTime}>
+                                                <ListItem
+                                                    title={league.title?.length > 30 ? league.title.slice(0, 30) + "..." : league.title}
+                                                    imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
+                                                    style={{ borderBottomWidth: 1, paddingVertical: 0 }}
+                                                />
+                                                <ListItem2
+                                                    navigation={navigation}
+                                                    titles={titles}
+                                                    iconUrls={game.teams.map(team => team.iconUrl) as [string, string]}
+                                                    counts={counts}
+                                                    notifs={[notificatorsLeft || 0, notificatorsRight || 0]}
+                                                    descs={[activeTime, renderedDate]}
+                                                    routeType={'Game'}
+                                                    routeProps={{ league: leagueData, gameUrl: game.url, gameInfo: game }}
+                                                />
+                                            </View>
+                                        )
+                                    }) :
+                                <NotFound title={'Пусто..'} desc={'Игр не найдено'} />}
+                    </ScrollView>
+                </ImageBackground>
             </View>
             <Footer navigation={navigation} />
         </>

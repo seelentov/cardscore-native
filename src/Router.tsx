@@ -25,8 +25,7 @@ export type RootStackParamList = {
     Home: undefined;
     Profile: undefined;
     Settings: undefined;
-    Payment: undefined;
-    Favorites: undefined;
+    Favorites: undefined | { hot: boolean };
     Login: undefined;
     SignUp: undefined;
     Code: {

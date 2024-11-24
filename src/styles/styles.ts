@@ -2,17 +2,17 @@ import { StyleSheet } from 'react-native';
 import theme from '../core/config/theme';
 
 export const styles = StyleSheet.create({
-    wrapper:{
-       height: "92%",
-       width: '100%',
-       backgroundColor: theme.background
+    wrapper: {
+        height: "92%",
+        width: '100%',
+        backgroundColor: theme.background
     },
-    wrapper100:{
+    wrapper100: {
         height: "100%",
         width: '100%',
         backgroundColor: theme.background
-     },
-    wrapperFull:{
+    },
+    wrapperFull: {
         height: "100%",
         width: '100%',
         backgroundColor: theme.background,
@@ -22,20 +22,24 @@ export const styles = StyleSheet.create({
         paddingLeft: 30,
         paddingTop: 30,
         paddingBottom: 30,
-     },
-    spaces:{
+    },
+    spaces: {
         paddingRight: 30,
         paddingLeft: 30,
         paddingTop: 30,
         paddingBottom: 30,
     },
-    spacesHorizontal:{
+    spacesHorizontal: {
         paddingRight: 30,
         paddingLeft: 30,
     },
-    center:{
+    center: {
         display: 'flex',
         justifyContent: 'center',
         width: '100%'
+    },
+    bg: {
+        flex: 1,
+        height: '100%',
     }
 });

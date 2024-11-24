@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ScrollView, View } from 'react-native';
+import { ImageBackground, ScrollView, View } from 'react-native';
 import { RootStackParamList } from '../../Router';
 import Footer from '../../components/Footer/Footer';
 import { styles } from '../../styles/styles';
@@ -16,6 +16,7 @@ import { encodeUrl } from '../../core/utils/url/encodeUrl';
 import { NotifContext } from '../../provider/NotifProvider';
 import LoadingMin from '../../components/ui/Loading/LoadingMin';
 import theme from '../../core/config/theme';
+import React from 'react';
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Game'>;
 
@@ -28,8 +29,8 @@ export default function GameScreen({ navigation, route }: HomeScreenProps) {
         gameUrl: encodeUrl(gameUrl)
     }, { pollingInterval: 10000 })
 
-    useEffect(()=>{
-        if(game?.teams == null){
+    useEffect(() => {
+        if (game?.teams == null) {
             refetch()
         }
     }, [game])
@@ -38,7 +39,7 @@ export default function GameScreen({ navigation, route }: HomeScreenProps) {
 
     const key = (gameInfo?.teams[0]?.name + gameInfo?.teams[1]?.name).replaceAll(" ", "").toUpperCase()
 
-    const thisNotificators = notificatorsData ? notificatorsData?.filter(n => { return n.gameUrl.toUpperCase() === key})?.sort((a, b) => parseInt(a.time) - parseInt(b.time)) : []
+    const thisNotificators = notificatorsData ? notificatorsData?.filter(n => { return n.gameUrl.toUpperCase() === key })?.sort((a, b) => parseInt(a.time) - parseInt(b.time)) : []
 
     const status = game && game?.activeGame ? gameInfo.gameTime : ""
 
@@ -48,29 +49,33 @@ export default function GameScreen({ navigation, route }: HomeScreenProps) {
         <>
             <View style={styles.wrapper}>
                 <>
-                    <ListItem
-                        title={league.title}
-                        desc={league.country}
-                        imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
-                        navigation={navigation}
-                        routeType={'League'}
-                        routeProps={{ leagueUrl: league.url }}
-                    />
-                    <ScrollView>
-                        {isLoading ?
-                            <View style={{
-                                padding: 20,
-                                borderBottomColor: theme.desc,
-                                borderBottomWidth: 1
-                            }}>
-                                <LoadingMin />
-                            </View>
-                            : <GameHeader teams={[game ? game.teams[0] : gameInfo.teams[0], game ? game.teams[1] : gameInfo.teams[1]]} status={status} counts={counts} date={new Date(gameInfo.dateTime)} />
-                        }
-                        {isLoadingNotif ? <Loading /> :
-                            <GameActions league={league} actions={thisNotificators} navigation={navigation} />
-                        }
-                    </ScrollView>
+                    <ImageBackground source={require('../../../assets/bgy.jpg')}>
+                        <ListItem
+                            title={league.title}
+                            desc={league.country}
+                            imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
+                            navigation={navigation}
+                            routeType={'League'}
+                            routeProps={{ leagueUrl: league.url }}
+                        />
+                    </ImageBackground>
+                    <ImageBackground source={require('../../../assets/bgw.jpg')}>
+                        <ScrollView>
+                            {isLoading ?
+                                <View style={{
+                                    padding: 20,
+                                    borderBottomColor: theme.desc,
+                                    borderBottomWidth: 1
+                                }}>
+                                    <LoadingMin />
+                                </View>
+                                : <GameHeader teams={[game ? game.teams[0] : gameInfo.teams[0], game ? game.teams[1] : gameInfo.teams[1]]} status={status} counts={counts} date={new Date(gameInfo.dateTime)} />
+                            }
+                            {isLoadingNotif ? <Loading /> :
+                                <GameActions league={league} actions={thisNotificators} navigation={navigation} />
+                            }
+                        </ScrollView>
+                    </ImageBackground>
                 </>
             </View>
             <Footer navigation={navigation} />

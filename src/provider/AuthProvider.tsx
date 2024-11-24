@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const { data: meData, error: meError } = useGetMeQuery(undefined, {
     pollingInterval: 5000
-});
+  });
 
   const navigateTo = (screen: string) => {
     navigation.dispatch(
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     );
   }
 
-  
+
 
   useEffect(() => {
     setIsLoadingAuth(true)
@@ -64,9 +64,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         navigateTo("Home")
       }
 
-      else{
+      else {
         navigateTo("Login")
-        
+
       }
 
     };
@@ -84,21 +84,19 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
         if (subscriptionDate < currentDate) {
           setIsSubExist(false);
-          
-          if(checkSubInterval === 5000){
+
+          if (checkSubInterval === 5000) {
             setCheckSubInterval(60000)
             navigateTo("OnlyInfos");
           }
           Alert.alert("Подписка истекла!", "Обратитесь по контактным данным для продления подписки")
-          console.log("Sub: ERR!")
         } else {
-          if(checkSubInterval === 60000){
+          if (checkSubInterval === 60000) {
             setCheckSubInterval(5000)
             navigateTo("Home");
           }
 
           setIsSubExist(true);
-          console.log("Sub: OK!")
         }
       }
     }, checkSubInterval);

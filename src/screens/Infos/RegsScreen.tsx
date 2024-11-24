@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Pressable, View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Pressable, View, Text, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { RootStackParamList } from '../../Router';
 import Footer from '../../components/Footer/Footer';
 import { styles } from '../../styles/styles';
@@ -9,6 +9,7 @@ import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
 import { useGetReglamentsQuery } from '../../core/store/api/reglaments.api';
 import NotFound from '../../components/ui/NotFound/NotFound';
+import React from 'react';
 
 type RegsScreenProps = NativeStackScreenProps<RootStackParamList, 'Regs'>;
 
@@ -24,7 +25,7 @@ export default function RegsScreen({ navigation }: RegsScreenProps) {
 
     return (
         <>
-            <View style={styles.wrapper}>
+            <ImageBackground source={require('../../../assets/bgw.jpg')} style={styles.wrapper}>
                 {isLoading ? <Loading /> :
                     reglaments ?
                         <ScrollView>
@@ -36,7 +37,7 @@ export default function RegsScreen({ navigation }: RegsScreenProps) {
                         :
                         <NotFound title={"Пусто..."} desc={"Ошибка при загрузке"} />
                 }
-            </View>
+            </ImageBackground>
             <Footer navigation={navigation} />
         </>
     );

@@ -3,12 +3,12 @@ import { StyleSheet } from 'react-native';
 import theme from '../../../core/config/theme';
 
 export const styles = StyleSheet.create({
-    icons:{
-            width: 20,
-            height: 20
+    icons: {
+        width: 20,
+        height: 20
     },
 
-    item:{
+    item: {
         display: "flex",
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -16,36 +16,37 @@ export const styles = StyleSheet.create({
         borderBottomColor: theme.desc,
         padding: 10
     },
-    info:{
+    info: {
         display: "flex",
         flexDirection: 'row',
         gap: 20,
         alignItems: 'center'
     },
-    notifText:{
+    notifText: {
         color: theme.background
     },
-    text:{
+    text: {
         display: 'flex',
         flexDirection: 'column',
         gap: 10,
-        
+
     },
-    desc:{
+    desc: {
         fontSize: 10,
         textAlign: 'right'
     },
-    notif:{
+    notif: {
         backgroundColor: '#CC0000',
         paddingHorizontal: 2,
         borderRadius: 3
     },
-    notifHide:{
+    notifHide: {
         backgroundColor: theme.background,
         paddingHorizontal: 2,
-        borderRadius: 3
+        borderRadius: 3,
+        opacity: 0
     },
-    notifs:{
+    notifs: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
@@ -54,14 +55,14 @@ export const styles = StyleSheet.create({
         marginLeft: 'auto',
 
     },
-    descs:{
+    descs: {
         display: 'flex',
         maxHeight: '100%',
         marginLeft: 'auto',
         marginTop: 'auto',
     },
 
-    count:{
+    count: {
         width: 50,
         display: 'flex',
         justifyContent: 'center',

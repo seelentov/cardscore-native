@@ -1,10 +1,10 @@
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, ImageSourcePropType } from 'react-native';
 import { styles } from './GameActions.stylesheet';
 import { SvgXml } from 'react-native-svg';
 
 type IGameActionsItemProps = {
     isLeft: boolean,
-    descIcon: string,
+    descIcon: ImageSourcePropType,
     descText?: string,
     title: any,
     time: string
@@ -27,10 +27,9 @@ export default function GameActionsItem({ isLeft, time, title, descIcon, descTex
             }}>
             <Text>{time}</Text>
             <View style={styles.desc}>
-                <SvgXml
-                    width="20px"
-                    height="20px"
-                    xml={descIcon}
+                <Image
+                    style={{ width: 20, height: 20 }}
+                    source={descIcon}
                 />
                 {descText && <Text >{descText}</Text>}
             </View>

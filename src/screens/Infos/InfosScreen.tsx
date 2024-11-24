@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Pressable, View, Text, StyleSheet } from 'react-native';
+import { Pressable, View, Text, StyleSheet, ImageBackground } from 'react-native';
 import { RootStackParamList } from '../../Router';
 import Footer from '../../components/Footer/Footer';
 import { styles } from '../../styles/styles';
@@ -8,11 +8,12 @@ import Loading from '../../components/ui/Loading/Loading';
 import theme from '../../core/config/theme';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
+import React from 'react';
 
 type InfosScreenProps = NativeStackScreenProps<RootStackParamList, 'Infos'>;
 
 export default function InfosScreen({ navigation }: InfosScreenProps) {
-    
+
     const route = (text: string, title: string) => {
         navigation.navigate("Info", { text, title })
     }
@@ -25,7 +26,7 @@ export default function InfosScreen({ navigation }: InfosScreenProps) {
 
     return (
         <>
-            <View style={styles.wrapper}>
+            <ImageBackground source={require('../../../assets/bgw.jpg')} style={styles.wrapper}>
                 {!isLoaded ? <Loading /> :
                     <>
                         <Pressable style={nestedStyles.item} onPress={() => route(contacts.description, contacts.name)}>
@@ -42,7 +43,7 @@ export default function InfosScreen({ navigation }: InfosScreenProps) {
                         </Pressable>
                     </>
                 }
-            </View>
+            </ImageBackground>
             <Footer navigation={navigation} />
         </>
     );
@@ -50,12 +51,12 @@ export default function InfosScreen({ navigation }: InfosScreenProps) {
 
 
 const nestedStyles = StyleSheet.create({
-    item:{
+    item: {
         paddingVertical: 20,
         borderBottomColor: theme.desc,
         borderBottomWidth: 1
     },
-    itemText:{
+    itemText: {
         fontSize: 20,
         paddingLeft: 10
     }

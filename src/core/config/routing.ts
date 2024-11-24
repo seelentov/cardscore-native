@@ -4,14 +4,16 @@ import settings from '../../components/ui/Icons/settings'
 import favorites from '../../components/ui/Icons/favorites'
 import info from '../../components/ui/Icons/info'
 import { RootStackParamList } from '../../Router'
+import { ImageSourcePropType } from 'react-native'
 
 type RouterPage = {
     name: keyof RootStackParamList
-    icon: string
-    title: string
+    icon: string | ImageSourcePropType
+    title: string,
+    props?: { [key: string]: any }
 }
 
-const routing: RouterPage[] =  [
+const routing: RouterPage[] = [
     {
         'name': "Home",
         'title': "Все игры",
@@ -20,12 +22,13 @@ const routing: RouterPage[] =  [
     {
         'name': "Favorites",
         'title': "Избранное",
-        'icon': favorites
+        'icon': favorites,
     },
     {
-        'name': "Profile",
-        'title': "Профиль",
-        'icon': profile
+        'name': "Favorites",
+        'title': "HOT",
+        'icon': require('../../../assets/footer_icon.png'),
+        'props': { hot: true }
     },
     {
         'name': "Settings",

@@ -10,9 +10,9 @@ type IDatePickerItemProps = {
 }
 
 export default function DatePickerItem({ active, date }: IDatePickerItemProps) {
- 
-    const borderBottomColor = active ? theme.color : theme.background
+
     const color = active ? theme.color : theme.text
+    const borderBottomWidth = active ? 4 : 0
 
     const weekDay = isToday(date) ? "СЕГОДНЯ" : convertToWeekDay(date)
 
@@ -20,11 +20,11 @@ export default function DatePickerItem({ active, date }: IDatePickerItemProps) {
     const month = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
 
     return (
-        <View style={{...styles.item, borderBottomColor}}>
-            <Text style={{color}}>
+        <View style={{ ...styles.item, borderBottomColor: theme.color, borderBottomWidth }}>
+            <Text style={{ color }}>
                 {weekDay}
             </Text>
-            <Text style={{color}}>
+            <Text style={{ color }}>
                 {day}.{month}
             </Text>
         </View>

@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Pressable, ScrollView, View, Text, ActivityIndicator } from 'react-native';
+import { Pressable, ScrollView, View, Text, ActivityIndicator, ImageBackground } from 'react-native';
 import { RootStackParamList } from '../../Router';
 import Footer from '../../components/Footer/Footer';
 import { styles } from '../../styles/styles';
@@ -22,6 +22,7 @@ import { localizeReverseCountry } from '../../core/utils/countries/localizeCount
 import calcGame from '../../core/utils/game/calcGame';
 import { useGetReglamentByNameQuery } from '../../core/store/api/reglaments.api';
 import { NotifContext } from '../../provider/NotifProvider';
+import React from 'react';
 
 type LeagueScreenProps = NativeStackScreenProps<RootStackParamList, 'League'>;
 
@@ -33,7 +34,7 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
         pollingInterval: 30000
     })
 
-    const {notificatorsData} = useContext(NotifContext)
+    const { notificatorsData } = useContext(NotifContext)
 
     const { data: reglament, isLoading: isLoadingReglament } = useGetReglamentByNameQuery({ name: leagueName })
 
@@ -98,8 +99,8 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
 
     const isNoHaveGames = !isLoading && league && (league?.games?.length < 1)
 
-    const title = league && (league.title?.length > 20 ? league.title.slice(0,20) + "..." : league.title);
-    const country = league && (league.country?.length > 20 ? league.country.slice(0,20) + "..." : league.country);
+    const title = league && (league.title?.length > 20 ? league.title.slice(0, 20) + "..." : league.title);
+    const country = league && (league.country?.length > 20 ? league.country.slice(0, 20) + "..." : league.country);
 
     return (
         <>
@@ -108,7 +109,7 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
                 {isLoading ? <Loading /> :
                     (!isLoading && league) ?
                         <>
-                            <View style={stylesNested.header}>
+                            <ImageBackground style={stylesNested.header} source={require('../../../assets/bgy.jpg')}>
                                 <ListItem
                                     title={title}
                                     desc={country}
@@ -116,7 +117,7 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
                                     style={{ borderBottomWidth: 0 }}
                                 />
                                 {
-                                    reglament && 
+                                    reglament &&
                                     <Pressable onPress={handleToReglament} style={{ marginLeft: 'auto', marginRight: 20 }}>
                                         {isLoadingReglament ? <ActivityIndicator color={theme.color} size={30} /> : reglament ?
                                             <SvgXml xml={text} width="30" height="30" /> : ""
@@ -134,10 +135,10 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
                                         }
                                     </Pressable>
                                 }
-                            </View>
+                            </ImageBackground>
                             {
                                 league?.games &&
-                                <>
+                                <ImageBackground source={require('../../../assets/bgw.jpg')}>
                                     <ListItem title={'Все игры'} style={{ backgroundColor: theme.desc }} />
                                     <ScrollView
                                         onScroll={handleScroll}
@@ -153,14 +154,14 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
                                             const notifKey = (game.teams[0].name + game.teams[1].name).replaceAll(" ", "").toUpperCase()
 
 
-                                const notificators = notificatorsData?.filter(n => n.gameUrl.toUpperCase() === notifKey)
+                                            const notificators = notificatorsData?.filter(n => n.gameUrl.toUpperCase() === notifKey)
 
-                                            
+
 
                                             const notificatorsLeft = showNotifs ? notificators?.filter(n => n.leftTeam)?.length : 0
                                             const notificatorsRight = showNotifs ? notificators?.filter(n => !n.leftTeam)?.length : 0
 
-                                            const titles = game.teams.map(team => team.name?.length > 20 ? team.name.slice(0,20) + "..." : team.name) as [string, string]
+                                            const titles = game.teams.map(team => team.name?.length > 20 ? team.name.slice(0, 20) + "..." : team.name) as [string, string]
 
                                             return (
                                                 <ListItem2
@@ -178,9 +179,9 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
                                         )}
                                         {isNoHaveGames && <NotFound title={'Пусто..'} desc={'Игр этой лиги не найдено'} />}
                                     </ScrollView>
-                                </>
+                                </ImageBackground>
                             }
-                            
+
 
                         </> :
                         <NotFound title={'Пусто..'} desc={'Ошибка при загрузке лиги'} />
