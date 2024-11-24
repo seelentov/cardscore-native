@@ -1,4 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProfileScreen from './screens/Profile/ProfileScreen';
 import { StatusBar } from 'react-native';
@@ -10,7 +9,6 @@ import LoginScreen from './screens/Login/LoginScreen';
 import SignUpScreen from './screens/Login/SignUpScreen';
 import GameScreen from './screens/Game/GameScreen';
 import { League } from './core/types/league';
-import { Player } from './core/types/player';
 import PlayerScreen from './screens/Player/PlayerScreen';
 import InfosScreen from './screens/Infos/InfosScreen';
 import InfoScreen from './screens/Infos/InfoScreen';
@@ -18,9 +16,9 @@ import OnlyInfosScreen from './screens/Infos/OnlyInfosScreen';
 import OnlyInfoScreen from './screens/Infos/OnlyInfoScreen';
 import { Game } from './core/types/game';
 import RegsScreen from './screens/Infos/RegsScreen';
-import { NotifProvider } from './provider/NotifProvider';
 import HomeScreen from './screens/Home/HomeScreen';
 import LoadingScreen from './screens/Loading/LoadingScreen';
+import React from 'react';
 
 export type RootStackParamList = {
     Loading: undefined;

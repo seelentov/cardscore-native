@@ -19,19 +19,15 @@ export default function App() {
         paddingTop: Platform.OS !== 'android' ? StatusBarManager.HEIGHT : 0,
       }}>
         <NavigationContainer>
-          <TimeProvider>
-            <NotifProvider>
-              <AuthProvider>
-                <FavoritesProvider>
-                  <Router />
-                </FavoritesProvider>
-              </AuthProvider>
-            </NotifProvider>
-          </TimeProvider>
+          <NotifProvider>
+            <AuthProvider>
+              <FavoritesProvider>
+                <Router />
+              </FavoritesProvider>
+            </AuthProvider>
+          </NotifProvider>
         </NavigationContainer>
-
       </SafeAreaView>
-
     </Provider>
   );
 }
