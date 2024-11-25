@@ -5,7 +5,7 @@ import Footer from '../../components/Footer/Footer';
 import { styles } from '../../styles/styles';
 import Checkbox from '../../components/ui/Checkbox/Checkbox';
 import Header from '../../components/ui/Header/Header';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useEditNotificatorsMutation, useGetNotificatorsQuery } from '../../core/store/api/auth.api';
 import Loading from '../../components/ui/Loading/Loading';
 import Button from '../../components/ui/Button/Button';
@@ -101,6 +101,16 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
         });
     }
 
+    const [show, setShow] = useState<number>(5)
+
+    const handleScroll = (event: any) => {
+        const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+
+        if (contentOffset.y + layoutMeasurement.height >= contentSize.height - 100) {
+            setShow(prev => prev + 5)
+        }
+    };
+
     return (
         <>
             <View style={styles.wrapper}>
@@ -108,13 +118,21 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
                     <Header>Настройки</Header>
                 </ImageBackground>
 
-                <ScrollView style={nestedStyle.list}>
+                <ScrollView style={nestedStyle.list} onScroll={handleScroll}>
+                    <View style={{ paddingHorizontal: 10 }}>
+                        <Header>Профиль</Header>
+                    </View>
+                    <Profile navigation={navigation} />
+                    <Br />
+                    <Br />
+                    <Br />
+
                     <View style={{ paddingHorizontal: 10 }}>
                         <Header>Уведомления</Header>
                     </View>
                     {
                         isLoading ? <Loading /> :
-                            notificators?.map((notificator, index) => {
+                            notificators?.slice(0, show).map((notificator, index) => {
                                 return (
                                     <View key={index} style={nestedStyle.section}>
                                         <Text style={nestedStyle.itemHeader}>{notificator.name}</Text>
@@ -122,7 +140,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
                                         {
                                             cardCountTypes.map((cdCntType) =>
                                                 <View style={nestedStyle.item}>
-                                                    <Text>{cdCntType === "cardCount" ? 'Первая' : cdCntType === "cardCountTwo" ? "Вторая" : cdCntType === "cardCountThree" ? "Третья" : "Четвёртая"} критическая желтая карточка при: </Text>
+                                                    <Text>{cdCntType === "cardCount" ? '1-я' : cdCntType === "cardCountTwo" ? "2-я" : cdCntType === "cardCountThree" ? "3-я" : "4-я"} критическая желтая карточка при: </Text>
                                                     <Pressable style={nestedStyle.btn} onPress={() => handleUpdateNotifValue(index, 1, cdCntType)}>
                                                         <Text>+</Text>
                                                     </Pressable>
@@ -145,13 +163,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
                     {
                         notificators && notificators?.length < 1 && <NotFound title={"Пусто"} desc={"Нет ни одной избранной лиги"} />
                     }
-                    <View style={{ paddingHorizontal: 10 }}>
-                        <Header>Профиль</Header>
-                    </View>
-                    <Profile navigation={navigation} />
-                    <Br />
-                    <Br />
-                    <Br />
+
                 </ScrollView>
 
                 <View style={styles.spaces}>

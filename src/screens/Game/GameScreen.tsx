@@ -59,7 +59,7 @@ export default function GameScreen({ navigation, route }: HomeScreenProps) {
                             routeProps={{ leagueUrl: league.url }}
                         />
                     </ImageBackground>
-                    <ImageBackground source={require('../../../assets/bgw.jpg')}>
+                    <ImageBackground source={require('../../../assets/bgw.jpg')} style={{ height: '93%' }}>
                         <ScrollView>
                             {isLoading ?
                                 <View style={{

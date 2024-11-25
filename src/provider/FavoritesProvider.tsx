@@ -9,7 +9,7 @@ import { Game } from '../core/types/game';
 import { League } from '../core/types/league';
 
 export const FavoritesContext = createContext<FavoritesContextProps>({
-  favorites: undefined, 
+  favorites: undefined,
   isLoading: false,
 });
 
@@ -17,15 +17,15 @@ interface FavoritesContextProps {
   favorites: {
     league: League;
     game: Game;
-}[] | undefined, 
+  }[] | undefined,
   isLoading: boolean,
 }
 
 
 
 export const FavoritesProvider = ({ children }: PropsWithChildren) => {
- 
-  const { data: favorites, isLoading } = useGetFavoriteGamesQuery(undefined, { pollingInterval: 10000 })
+
+  const { data: favorites, isLoading } = useGetFavoriteGamesQuery(undefined, { pollingInterval: 30000 })
 
   return (
     <FavoritesContext.Provider value={{ favorites, isLoading }}>

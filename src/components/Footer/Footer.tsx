@@ -39,10 +39,10 @@ export default function Footer({ navigation }: IHeaderProps) {
                     const actual = ((route.name === actialRoute.name) && route.props === actialRoute.params)
                     const opacity = actual ? 1 : 0.5
                     const pointerEvents = actual ? 'none' : undefined
-                    return (<Pressable key={key} style={{ ...styles.item, opacity, pointerEvents }} onPress={() => navigation.push(route.name, route.props)}>
+                    return (<Pressable key={key} style={{ ...styles.item, opacity, pointerEvents }} onPress={() => navigate(route.name, route.props)}>
                         {typeof route.icon === 'string'
                             ? <SvgXml xml={route.icon as string} width="30" height="30" />
-                            : <Image style={{ width: 30, height: 30 }} source={route.icon as ImageSourcePropType} />
+                            : <Image style={{ width: 40, height: 40 }} source={route.icon as ImageSourcePropType} />
                         }
                     </Pressable>)
                 })}

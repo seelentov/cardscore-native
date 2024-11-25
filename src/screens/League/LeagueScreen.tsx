@@ -138,7 +138,7 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
                             </ImageBackground>
                             {
                                 league?.games &&
-                                <ImageBackground source={require('../../../assets/bgw.jpg')}>
+                                <ImageBackground source={require('../../../assets/bgw.jpg')} style={{ height: '93%' }}>
                                     <ListItem title={'Все игры'} style={{ backgroundColor: theme.desc }} />
                                     <ScrollView
                                         onScroll={handleScroll}

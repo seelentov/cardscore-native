@@ -28,7 +28,7 @@ export default function GameActionsItem({ isLeft, time, title, descIcon, descTex
             <Text>{time}</Text>
             <View style={styles.desc}>
                 <Image
-                    style={{ width: 20, height: 20 }}
+                    style={{ width: 30, height: 30 }}
                     source={descIcon}
                 />
                 {descText && <Text >{descText}</Text>}
