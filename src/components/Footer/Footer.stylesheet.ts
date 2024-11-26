@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
         left: 0,
         paddingLeft: 20,
         paddingRight: 20,
-        minHeight: 70
+        minHeight: 70,
+        backgroundColor: 'white'
     },
     list: {
         display: 'flex',

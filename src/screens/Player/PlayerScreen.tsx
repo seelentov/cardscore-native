@@ -48,16 +48,14 @@ export default function PlayerScreen({ navigation, route }: HomeScreenProps) {
     return (
         <>
             <ImageBackground source={require('../../../assets/bgw.jpg')} style={styles.wrapper}>
-                <ImageBackground source={require('../../../assets/bgy.jpg')}>
-                    <ListItem
-                        title={league.title}
-                        desc={league.country}
-                        imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
-                        navigation={navigation}
-                        routeType={'League'}
-                        routeProps={{ leagueUrl: league.url }}
-                    />
-                </ImageBackground>
+                <ListItem
+                    title={league.title}
+                    desc={league.country}
+                    imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
+                    navigation={navigation}
+                    routeType={'League'}
+                    routeProps={{ leagueUrl: league.url }}
+                />
                 {isLoading ? <Loading /> :
                     player &&
                     <View style={styles.spaces}>

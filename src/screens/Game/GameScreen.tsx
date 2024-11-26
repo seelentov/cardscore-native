@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ImageBackground, ScrollView, View } from 'react-native';
+import { Dimensions, ImageBackground, ScrollView, View } from 'react-native';
 import { RootStackParamList } from '../../Router';
 import Footer from '../../components/Footer/Footer';
 import { styles } from '../../styles/styles';
@@ -19,6 +19,9 @@ import theme from '../../core/config/theme';
 import React from 'react';
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Game'>;
+
+const { height } = Dimensions.get('window')
+
 
 export default function GameScreen({ navigation, route }: HomeScreenProps) {
 
@@ -49,17 +52,15 @@ export default function GameScreen({ navigation, route }: HomeScreenProps) {
         <>
             <View style={styles.wrapper}>
                 <>
-                    <ImageBackground source={require('../../../assets/bgy.jpg')}>
-                        <ListItem
-                            title={league.title}
-                            desc={league.country}
-                            imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
-                            navigation={navigation}
-                            routeType={'League'}
-                            routeProps={{ leagueUrl: league.url }}
-                        />
-                    </ImageBackground>
-                    <ImageBackground source={require('../../../assets/bgw.jpg')} style={{ height: '93%' }}>
+                    <ListItem
+                        title={league.title}
+                        desc={league.country}
+                        imageUrl={getFlagByCountry(localizeReverseCountry(league.country))}
+                        navigation={navigation}
+                        routeType={'League'}
+                        routeProps={{ leagueUrl: league.url }}
+                    />
+                    <ImageBackground source={require('../../../assets/bgw.jpg')} style={{ height: height - 110 }}>
                         <ScrollView>
                             {isLoading ?
                                 <View style={{
@@ -72,7 +73,9 @@ export default function GameScreen({ navigation, route }: HomeScreenProps) {
                                 : <GameHeader teams={[game ? game.teams[0] : gameInfo.teams[0], game ? game.teams[1] : gameInfo.teams[1]]} status={status} counts={counts} date={new Date(gameInfo.dateTime)} />
                             }
                             {isLoadingNotif ? <Loading /> :
-                                <GameActions league={league} actions={thisNotificators} navigation={navigation} />
+                                <>
+                                    <GameActions league={league} actions={thisNotificators} navigation={navigation} />
+                                </>
                             }
                         </ScrollView>
                     </ImageBackground>

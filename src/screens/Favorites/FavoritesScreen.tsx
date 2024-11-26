@@ -24,6 +24,10 @@ import Picker, { PickerOption } from '../../components/Picker/Picker';
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Favorites'>;
 
+const { height } = Dimensions.get('window')
+
+
+
 export default function FavoritesScreen({ navigation, route }: HomeScreenProps) {
 
     const params = route?.params;
@@ -38,6 +42,8 @@ export default function FavoritesScreen({ navigation, route }: HomeScreenProps) 
             label: 'Более 3-х событий'
         }
     ], [])
+
+    const listHeight = useMemo(() => height - (45 + 70 + 25 + (params?.hot ? 45 : 0)), [params?.hot])
 
     const [hotMode, setHotMode] = useState<PickerOption | null>(null)
 
@@ -106,7 +112,7 @@ export default function FavoritesScreen({ navigation, route }: HomeScreenProps) 
     return (
         <>
             <View style={styles.wrapper}>
-                <ImageBackground source={require('../../../assets/bgy.jpg')}>
+                <>
                     <View style={{ ...nestedStyles.datePicker, paddingLeft: date ? 50 : 0 }}>
                         <DatePicker dateState={date} setDate={setDate} />
                         <Pressable onPress={clearDate} style={{ ...nestedStyles.datePickerBtn, opacity: date ? 1 : 0 }}>
@@ -127,9 +133,9 @@ export default function FavoritesScreen({ navigation, route }: HomeScreenProps) 
                             />
                         </Pressable>
                     </View>}
-                </ImageBackground>
+                </>
                 {!isLoading && <ListItem title={titleDate} style={{ backgroundColor: theme.desc }} />}
-                <ImageBackground source={require('../../../assets/bgw.jpg')} style={{ height: params?.hot ? '83%' : '89%' }}>
+                <ImageBackground source={require('../../../assets/bgw.jpg')} style={{ height: listHeight }}>
                     <ScrollView
                         onScroll={handleScroll}
                         style={nestedStyles.scrollView}
@@ -192,7 +198,6 @@ export default function FavoritesScreen({ navigation, route }: HomeScreenProps) 
 const pickerStyles: ViewStyle = {
     position: 'relative',
     overflow: 'visible',
-    height: 45
 }
 
 const nestedStyles = StyleSheet.create({
@@ -217,6 +222,5 @@ const nestedStyles = StyleSheet.create({
         borderWidth: 1
     },
     scrollView: {
-
     }
 })

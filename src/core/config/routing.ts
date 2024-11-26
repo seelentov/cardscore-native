@@ -1,5 +1,4 @@
 import home from '../../components/ui/Icons/home'
-import profile from '../../components/ui/Icons/profile'
 import settings from '../../components/ui/Icons/settings'
 import favorites from '../../components/ui/Icons/favorites'
 import info from '../../components/ui/Icons/info'

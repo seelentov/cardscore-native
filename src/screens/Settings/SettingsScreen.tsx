@@ -13,8 +13,8 @@ import { EditUserNotificationOption } from '../../core/types/EditUserNotificatio
 import theme from '../../core/config/theme';
 import NotFound from '../../components/ui/NotFound/NotFound';
 import React from 'react';
-import { Profile } from '../../components/Profile/Profile';
-import Br from '../../components/ui/Br/Br';
+import profile from '../../components/ui/Icons/profile'
+import { SvgXml } from 'react-native-svg';
 
 type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
@@ -114,19 +114,13 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
     return (
         <>
             <View style={styles.wrapper}>
-                <ImageBackground style={styles.spacesHorizontal} source={require('../../../assets/bgy.jpg')}>
+                <View style={nestedStyle.header}>
                     <Header>Настройки</Header>
-                </ImageBackground>
-
+                    <Pressable onPress={() => navigation.navigate("Profile")}>
+                        <SvgXml xml={profile} width="30" height="30" />
+                    </Pressable>
+                </View>
                 <ScrollView style={nestedStyle.list} onScroll={handleScroll}>
-                    <View style={{ paddingHorizontal: 10 }}>
-                        <Header>Профиль</Header>
-                    </View>
-                    <Profile navigation={navigation} />
-                    <Br />
-                    <Br />
-                    <Br />
-
                     <View style={{ paddingHorizontal: 10 }}>
                         <Header>Уведомления</Header>
                     </View>
@@ -217,5 +211,11 @@ const nestedStyle = StyleSheet.create({
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderColor: theme.desc,
+    },
+    header: {
+        paddingHorizontal: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     }
 })

@@ -109,7 +109,7 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
                 {isLoading ? <Loading /> :
                     (!isLoading && league) ?
                         <>
-                            <ImageBackground style={stylesNested.header} source={require('../../../assets/bgy.jpg')}>
+                            <View style={stylesNested.header}>
                                 <ListItem
                                     title={title}
                                     desc={country}
@@ -135,10 +135,10 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
                                         }
                                     </Pressable>
                                 }
-                            </ImageBackground>
+                            </View>
                             {
                                 league?.games &&
-                                <ImageBackground source={require('../../../assets/bgw.jpg')} style={{ height: '93%' }}>
+                                <>
                                     <ListItem title={'Все игры'} style={{ backgroundColor: theme.desc }} />
                                     <ScrollView
                                         onScroll={handleScroll}
@@ -179,7 +179,7 @@ export default function LeagueScreen({ navigation, route }: LeagueScreenProps) {
                                         )}
                                         {isNoHaveGames && <NotFound title={'Пусто..'} desc={'Игр этой лиги не найдено'} />}
                                     </ScrollView>
-                                </ImageBackground>
+                                </>
                             }
 
 

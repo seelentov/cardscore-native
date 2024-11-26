@@ -33,7 +33,7 @@ export default function Footer({ navigation }: IHeaderProps) {
     }
 
     return (
-        <ImageBackground style={{ ...styles.main, ...baseStyles.bg }} source={require('../../../assets/bgy.jpg')}>
+        <View style={{ ...styles.main, ...baseStyles.bg }}>
             <View style={styles.list}>
                 {routing.map((route, key) => {
                     const actual = ((route.name === actialRoute.name) && route.props === actialRoute.params)
@@ -48,6 +48,6 @@ export default function Footer({ navigation }: IHeaderProps) {
                 })}
 
             </View>
-        </ImageBackground>
+        </View>
     );
 }
