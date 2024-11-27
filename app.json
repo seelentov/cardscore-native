@@ -19,6 +19,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "versionCode": 3,
       "package": "com.seelentov.cardscorenative",
       "googleServicesFile": "./google/google-services.json"
     },
